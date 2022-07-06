@@ -20,7 +20,7 @@ namespace Streamish.Repositories
                     cmd.CommandText = @"
                             INSERT INTO UserProfile ([Name], Email, ImageUrl, DateCreated)
                             VALUES (@Name, @Email, @ImageUrl, @DateCreated)";
-                    foreach(PropertyInfo propertyInfo in userProfile.GetType().GetProperties())
+                    foreach (PropertyInfo propertyInfo in userProfile.GetType().GetProperties())
                     {
                         if (propertyInfo.Name == "Id")
                         {
@@ -83,7 +83,31 @@ namespace Streamish.Repositories
 
         public List<UserProfile> GetAll()
         {
-            throw new System.NotImplementedException();
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT Id, Name, Email, ImageUrl, DateCreated
+                                        FROM UserProfile";
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        List<UserProfile> userProfiles = new List<UserProfile>();
+                        while (reader.Read())
+                        {
+                            userProfiles.Add(new UserProfile()
+                            {
+                                Id = DbUtils.GetInt(reader, "Id"),
+                                Name = DbUtils.GetString(reader, "Name"),
+                                Email = DbUtils.GetString(reader, "Email"),
+                                ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
+                                DateCreated = DbUtils.GetDateTime(reader, "DateCreated")
+                            });
+                        }
+                        return userProfiles;
+                    }
+                }
+            }
         }
 
         public void Update(UserProfile userProfile)

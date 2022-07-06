@@ -20,9 +20,9 @@ namespace Streamish.Controllers
 
         // GET: api/<UserProfileController>
         [HttpGet]
-        public List<UserProfile> GetAll()
+        public IActionResult GetAll()
         {
-            throw new NotImplementedException();
+            return Ok(_userProfileRepository.GetAll());
         }
 
         // GET api/<UserProfileController>/5
