@@ -112,7 +112,21 @@ namespace Streamish.Repositories
 
         public void Update(UserProfile userProfile)
         {
-            throw new System.NotImplementedException();
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE UserProfile
+                                        SET Name=@Name, Email=@Email, ImageUrl=@ImageUrl, DateCreated=@DateCreated
+                                        WHERE UserProfile.Id = @Id";
+                    foreach (PropertyInfo p in userProfile.GetType().GetProperties())
+                    {
+                        DbUtils.AddParameter(cmd, $"@{p.Name}", p.GetValue(userProfile));
+                    }
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

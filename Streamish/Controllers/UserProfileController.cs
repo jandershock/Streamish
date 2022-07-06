@@ -42,15 +42,22 @@ namespace Streamish.Controllers
 
         // PUT api/<UserProfileController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, UserProfile userProfile)
         {
+            if (id != userProfile.Id)
+            {
+                return BadRequest();
+            }
+            _userProfileRepository.Update(userProfile);
+            return NoContent();
         }
 
         // DELETE api/<UserProfileController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
             _userProfileRepository.Delete(id);
+            return NoContent();
         }
     }
 }
