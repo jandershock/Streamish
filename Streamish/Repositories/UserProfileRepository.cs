@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Streamish.Models;
 using System.Collections.Generic;
 using System.Reflection;
+using Streamish.Utils;
 
 namespace Streamish.Repositories
 {
@@ -50,7 +51,34 @@ namespace Streamish.Repositories
 
         public UserProfile Get(int id)
         {
-            throw new System.NotImplementedException();
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT Id, Name, Email, ImageUrl, DateCreated
+                                        FROM UserProfile
+                                        WHERE UserProfile.Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        UserProfile userProfile = null;
+                        if (reader.Read())
+                        {
+                            userProfile = new UserProfile()
+                            {
+                                Id = DbUtils.GetInt(reader, "Id"),
+                                Name = DbUtils.GetString(reader, "Name"),
+                                Email = DbUtils.GetString(reader, "Email"),
+                                ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
+                                DateCreated = DbUtils.GetDateTime(reader, "DateCreated")
+                            };
+                        }
+                        return userProfile;
+                    }
+                }
+
+            }
         }
 
         public List<UserProfile> GetAll()

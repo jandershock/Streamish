@@ -27,9 +27,9 @@ namespace Streamish.Controllers
 
         // GET api/<UserProfileController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            return Ok(_userProfileRepository.Get(id));
         }
 
         // POST api/<UserProfileController>
