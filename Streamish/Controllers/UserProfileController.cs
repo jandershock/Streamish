@@ -60,7 +60,7 @@ namespace Streamish.Controllers
             return NoContent();
         }
 
-        [HttpGet("id/AuthoredVideos")]
+        [HttpGet("{id}/AuthoredVideos")]
         public IActionResult GetWithVideos(int id)
         {
             return Ok(_userProfileRepository.GetUserProfileWithAuthoredVideos(id));
