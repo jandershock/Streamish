@@ -59,5 +59,11 @@ namespace Streamish.Controllers
             _userProfileRepository.Delete(id);
             return NoContent();
         }
+
+        [HttpGet("id/AuthoredVideos")]
+        public IActionResult GetWithVideos(int id)
+        {
+            return Ok(_userProfileRepository.GetUserProfileWithAuthoredVideos(id));
+        }
     }
 }

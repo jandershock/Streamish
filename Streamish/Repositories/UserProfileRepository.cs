@@ -128,5 +128,45 @@ namespace Streamish.Repositories
                 }
             }
         }
+
+        public UserProfile GetUserProfileWithAuthoredVideos(int userId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT UserProfile.Id, [Name], Email, ImageUrl, UserProfile.DateCreated,
+
+                                               Video.Id AS VideoId, Video.Title, Video.[Description], Video.[Url], Video.DateCreated AS VideoDateCreated
+                                        FROM UserProfile
+                                        JOIN Video ON Video.UserProfileId = UserProfile.Id
+                                        WHERE UserProfile.Id = @userId";
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        UserProfile userProfile = null;
+                        while (reader.Read())
+                        {
+                            if (userProfile == null)
+                            {
+                                userProfile = DbUtils.ExtractUserProfile(reader, "Id", "Name", "Email", "ImageUrl", "DateCreated");
+                                userProfile.AuthoredVideos = new List<Video>();
+                            }
+
+                            userProfile.AuthoredVideos.Add(new Video()
+                            {
+                                Id = DbUtils.GetInt(reader, "VideoId"),
+                                Title = DbUtils.GetString(reader, "Title"),
+                                Description = DbUtils.GetString(reader, "Description"),
+                                Url = DbUtils.GetString(reader, "Url"),
+                                DateCreated = DbUtils.GetDateTime(reader, "VideoDateCreated")
+                            });
+                        }
+                        return userProfile;
+                    }
+                }
+            }
+        }
     }
 }

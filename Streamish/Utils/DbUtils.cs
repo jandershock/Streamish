@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
+using Streamish.Models;
 
 namespace Streamish.Utils
 {
@@ -121,6 +123,18 @@ namespace Streamish.Utils
             {
                 cmd.Parameters.AddWithValue(name, value);
             }
+        }
+
+        public static UserProfile ExtractUserProfile(SqlDataReader reader, string idAlias, string nameAlias, string emailAlias, string imageUrlAlias, string dateCreatedAlias)
+        {
+            return new UserProfile()
+            {
+                Id = DbUtils.GetInt(reader, idAlias),
+                Name = DbUtils.GetString(reader, nameAlias),
+                Email = DbUtils.GetString(reader, emailAlias),
+                ImageUrl = DbUtils.GetString(reader, imageUrlAlias),
+                DateCreated = DbUtils.GetDateTime(reader, dateCreatedAlias)
+            };
         }
     }
 }
