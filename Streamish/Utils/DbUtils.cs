@@ -136,5 +136,18 @@ namespace Streamish.Utils
                 DateCreated = DbUtils.GetDateTime(reader, dateCreatedAlias)
             };
         }
+
+        public static Video ExtractVideo(SqlDataReader reader, string idAlias, string titleAlias, string descriptionAlias, string urlAlias, string dateCreatedAlias, string userProfileIdAlias)
+        {
+            return new Video()
+            {
+                Id = DbUtils.GetInt(reader, idAlias),
+                Title = DbUtils.GetString(reader, titleAlias),
+                Description = DbUtils.GetString(reader, descriptionAlias),
+                Url = DbUtils.GetString(reader, urlAlias),
+                DateCreated = DbUtils.GetDateTime(reader, dateCreatedAlias),
+                UserProfileId = DbUtils.GetInt(reader, userProfileIdAlias)
+            };
+        }
     }
 }
