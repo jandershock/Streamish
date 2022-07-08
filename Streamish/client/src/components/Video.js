@@ -1,5 +1,6 @@
 import React from "react";
-import { Card, CardBody } from "reactstrap";
+import VideoComment from "./VideoComment";
+import { Card, CardBody, CardHeader } from "reactstrap";
 
 const Video = ({ video }) => {
   return (
@@ -17,6 +18,19 @@ const Video = ({ video }) => {
           <strong>{video.title}</strong>
         </p>
         <p>{video.description}</p>
+        <br></br>
+          {video.comments.length > 0 && 
+            <Card>
+              <CardHeader>
+                <h5>Comments</h5>
+              </CardHeader>
+              <CardBody>
+                {video.comments.map(comment => (
+                  <VideoComment comment={comment}></VideoComment>
+                ))}
+              </CardBody>
+            </Card>
+          }
       </CardBody>
     </Card>
   );

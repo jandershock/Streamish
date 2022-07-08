@@ -5,6 +5,11 @@ export const getAllVideos = () => {
     .then((res) => res.json())
 };
 
+export const getAllVideosWithComments = () => {
+  return fetch(baseUrl + "/get-with-comments")
+    .then((res) => res.json())
+};
+
 export const addVideo = (video) => {
   return fetch(baseUrl, {
     method: "POST",
@@ -14,3 +19,8 @@ export const addVideo = (video) => {
     body: JSON.stringify(video),
   });
 };
+
+export const search = (query, sortDesc = '') => {
+  return fetch(baseUrl + "/search?" + `q=${query}` + `${sortDesc != '' ? `&sortDesc=${sortDesc}` : ''}`)
+    .then(res => res.json())
+}

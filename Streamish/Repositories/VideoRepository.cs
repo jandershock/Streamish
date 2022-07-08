@@ -375,6 +375,7 @@ namespace Streamish.Repositories
                                     DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
                                     ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),
                                 },
+                                Comments = new List<Comment>()
                             });
                         }
 
