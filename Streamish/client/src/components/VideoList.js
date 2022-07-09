@@ -28,7 +28,7 @@ const VideoList = () => {
     <div className="container">
       <div className="row py-2">
         <div className="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-12">
-          <VideoForm></VideoForm>
+          <VideoForm getVideos={getVideos}></VideoForm>
         </div>
       </div>
       <div className="row py-2">

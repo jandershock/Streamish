@@ -1,13 +1,19 @@
 import { Form, FormGroup, Label, Input, Button, FormFeedback } from "reactstrap";
+import { useEffect } from "react";
 import * as vm from "../modules/videoManager";
 
-const VideoForm = () => {
+const VideoForm = ( {getVideos} ) => {
     const handleSubmit = (event) => {
+        event.preventDefault();
         vm.addVideo({
             title: event.target.elements["videoTitle"].value,
             description: event.target.elements["videoDescription"].value,
             url: event.target.elements["videoUrl"].value
-        });
+        })
+            .then(() => {
+                getVideos();
+                event.target.reset();
+            });
     }
 
     return (
