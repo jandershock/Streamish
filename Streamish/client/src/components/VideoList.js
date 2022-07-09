@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Video from './Video';
+import VideoForm from "./VideoForm";
 import { getAllVideos, getAllVideosWithComments, search } from "../modules/videoManager";
 import { Button, Input } from "reactstrap";
 
@@ -25,6 +26,11 @@ const VideoList = () => {
 
   return (
     <div className="container">
+      <div className="row py-2">
+        <div className="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-12">
+          <VideoForm></VideoForm>
+        </div>
+      </div>
       <div className="row py-2">
         <div className="col-10 px-0">
           <Input onChange={handleChange}></Input>

@@ -4,8 +4,8 @@ import { Card, CardBody, CardHeader } from "reactstrap";
 
 const Video = ({ video }) => {
   return (
-    <Card >
-      <p className="text-left px-2">Posted by: {video.userProfile.name}</p>
+    <Card className="text-center">
+      <p className="px-2">Posted by: {video.userProfile.name}</p>
       <CardBody>
         <iframe className="video"
           src={video.url}
