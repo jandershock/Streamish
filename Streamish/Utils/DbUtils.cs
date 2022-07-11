@@ -149,5 +149,16 @@ namespace Streamish.Utils
                 UserProfileId = DbUtils.GetInt(reader, userProfileIdAlias)
             };
         }
+
+        public static Comment ExtractComment(SqlDataReader reader, string idAlias, string messageAlias, string vIdAlias, string userProfileIdAlias)
+        {
+            return new Comment()
+            {
+                Id = DbUtils.GetInt(reader, idAlias),
+                Message = DbUtils.GetString(reader, messageAlias),
+                VideoId = DbUtils.GetInt(reader, vIdAlias),
+                UserProfileId = DbUtils.GetInt(reader, userProfileIdAlias)
+            };
+        }
     }
 }

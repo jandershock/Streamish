@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import VideoList from "./VideoList";
 import VideoForm from "./VideoForm";
 import VideoDetails from "./VideoDetails";
+import UserDetails from "./UserDetails";
 
 const ApplicationViews = () => {
   return (
@@ -13,6 +14,9 @@ const ApplicationViews = () => {
           <Route index element={<VideoList/>} />
           <Route path="add" element={<VideoForm/>} />
           <Route path=":id" element={<VideoDetails/>} />
+        </Route>
+
+        <Route path="users/:id" element={<UserDetails/>}>
         </Route>
       </Route>
       <Route path="*" element={<p>Whoops, nothing here...</p>} />
