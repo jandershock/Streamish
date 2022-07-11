@@ -6,7 +6,11 @@ import { Card, CardBody, CardHeader } from "reactstrap";
 const Video = ({ video }) => {
   return (
     <Card className="text-center">
-      <p className="px-2">Posted by: {video.userProfile.name}</p>
+      <p className="px-2">
+        Posted by: <Link to={`/users/${video.userProfileId}`}>
+          {video.userProfile.name}
+        </Link>
+      </p>
       <CardBody>
         <iframe className="video"
           src={video.url}
