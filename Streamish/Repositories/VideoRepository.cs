@@ -203,7 +203,7 @@ namespace Streamish.Repositories
                   FROM Video v 
                        JOIN UserProfile up ON v.UserProfileId = up.Id
                        LEFT JOIN Comment c on c.VideoId = v.id
-                       JOIN UserProfile up2 ON up2.Id = c.UserProfileId
+                       LEFT JOIN UserProfile up2 ON up2.Id = c.UserProfileId
                 WHERE v.Id = @Id
                 ";
                     cmd.Parameters.AddWithValue("@Id", id);

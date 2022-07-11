@@ -1,49 +1,61 @@
-import { Form, FormGroup, Label, Input, Button, FormFeedback } from "reactstrap";
-import { useEffect } from "react";
-import * as vm from "../modules/videoManager";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { addVideo } from "../modules/videoManager";
 
-const VideoForm = ( {getVideos} ) => {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        vm.addVideo({
-            title: event.target.elements["videoTitle"].value,
-            description: event.target.elements["videoDescription"].value,
-            url: event.target.elements["videoUrl"].value
-        })
-            .then(() => {
-                getVideos();
-                event.target.reset();
-            });
-    }
+const VideoForm = ({ getVideos }) => {
+  const emptyVideo = {
+    title: '',
+    description: '',
+    url: ''
+  };
 
-    return (
-        <Form onSubmit={handleSubmit} className="text-left">
-            <h2 className="text-center">New Video Form</h2>
-            <FormGroup>
-                <Label for="videoTitle">
-                    Title:
-                </Label>
-                <Input id="videoTitle" type="text" required></Input>
-            </FormGroup>
-            <FormGroup>
-                <Label for="videoDescription">
-                    Description:
-                </Label>
-                <Input id="videoDescription" type="text"></Input>
-            </FormGroup>
-            <FormGroup>
-                <Label for="videoUrl">
-                    Url:
-                </Label>
-                <Input id="videoUrl" type="text" required></Input>
-            </FormGroup>
-            <div className="text-right">
-                <Button>
-                    Add Video
-                </Button>
-            </div>
-        </Form>
-    )
-}
+  const navigate = useNavigate();
+
+  const [video, setVideo] = useState(emptyVideo);
+
+  const handleInputChange = (evt) => {
+    const value = evt.target.value;
+    const key = evt.target.id;
+
+    const videoCopy = { ...video };
+
+    videoCopy[key] = value;
+    setVideo(videoCopy);
+  };
+
+  const handleSave = (evt) => {
+    evt.preventDefault();
+
+    addVideo(video).then((p) => {
+        // Navigate the user back to the home route
+        navigate("/");
+    });
+  };
+
+  return (
+    <Form>
+      <FormGroup>
+        <Label for="title">Title</Label>
+        <Input type="text" name="title" id="title" placeholder="video title"
+          value={video.title}
+          onChange={handleInputChange} />
+      </FormGroup>
+      <FormGroup>
+        <Label for="url">URL</Label>
+        <Input type="text" name="url" id="url" placeholder="video link" 
+          value={video.url}
+          onChange={handleInputChange} />
+      </FormGroup>
+      <FormGroup>
+        <Label for="description">Description</Label>
+        <Input type="textarea" name="description" id="description"
+          value={video.description}
+          onChange={handleInputChange} />
+      </FormGroup>
+      <Button className="btn btn-primary" onClick={handleSave}>Submit</Button>
+    </Form>
+  );
+};
 
 export default VideoForm;

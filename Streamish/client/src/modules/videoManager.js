@@ -24,3 +24,7 @@ export const search = (query, sortDesc = '') => {
   return fetch(baseUrl + "/search?" + `q=${query}` + `${sortDesc != '' ? `&sortDesc=${sortDesc}` : ''}`)
     .then(res => res.json())
 }
+
+export const getVideo = (id) => {
+  return fetch(`${baseUrl}/GetByIdWithComments/${id}`).then((res) => res.json());
+};
